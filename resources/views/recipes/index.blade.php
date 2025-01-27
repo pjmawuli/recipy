@@ -25,7 +25,6 @@
                         <x-edit-modal />
 
                         @vite('resources/js/modal-behaviour.js')
-                        <!-- More posts... -->
                     </div>
                 </div>
             </div>
