@@ -19,7 +19,7 @@
                                 {{ __('Dashboard') }}
                             </x-nav-link>
                         @endauth
-                        <x-nav-link href="/" :active="request()->routeIs('/')">
+                        <x-nav-link href="/" :active="request()->routeIs('recipes.index')">
                             {{ __('Recipes') }}
                         </x-nav-link>
                     </div>
@@ -96,9 +96,9 @@
         <!-- Responsive Navigation Menu -->
         <div class="hidden sm:hidden" :class="{ 'block': open, 'hidden': !open }">
             <div class="space-y-1 pb-3 pt-2">
-                <x-responsive-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
+                <x-buttons.responsive-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
                     {{ __('Dashboard') }}
-                </x-responsive-nav-link>
+                </x-buttons.responsive-nav-link>
             </div>
 
             <!-- Responsive Settings Options -->
@@ -109,19 +109,19 @@
                 </div>
 
                 <div class="mt-3 space-y-1">
-                    <x-responsive-nav-link :href="route('profile.edit')">
+                    <x-buttons.responsive-nav-link :href="route('profile.edit')">
                         {{ __('Profile') }}
-                    </x-responsive-nav-link>
+                    </x-buttons.responsive-nav-link>
 
                     <!-- Authentication -->
                     <form method="POST" action="{{ route('logout') }}">
                         @csrf
 
-                        <x-responsive-nav-link :href="route('logout')"
-                                               onclick="event.preventDefault();
+                        <x-buttons.responsive-nav-link :href="route('logout')"
+                                                       onclick="event.preventDefault();
                                         this.closest('form').submit();">
                             {{ __('Log Out') }}
-                        </x-responsive-nav-link>
+                        </x-buttons.responsive-nav-link>
                     </form>
                 </div>
             </div>

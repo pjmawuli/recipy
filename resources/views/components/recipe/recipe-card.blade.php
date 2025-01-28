@@ -30,10 +30,10 @@
             </div>
         </div>
         <div>
-            <button class="openModalButton" id="openModalButton-{{ $recipe->id }}">
+            <button class="openModalButton" data-recipe-id="{{ $recipe->id }}" data-recipe-name="{{ $recipe->name }}"
+                    data-recipe-category="{{ $recipe->category }}" data-recipe-steps="{{ $recipe->steps }}">
                 <x-buttons.edit-icon />
             </button>
-            <x-edit-modal :recipe="$recipe" />
         </div>
     </div>
 </article>

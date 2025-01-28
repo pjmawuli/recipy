@@ -1,50 +1,60 @@
 document.addEventListener("DOMContentLoaded", function () {
     const modal = document.getElementById("edit-modal");
     const form = document.getElementById("edit-recipe-form");
+    const formFields = ["recipeName", "recipeCategory", "recipeSteps"];
 
-    // Open modal and populate data
-    document.querySelectorAll(".openModalButton").forEach((button) => {
-        button.addEventListener("click", () => {
-            const recipeId = button.dataset.recipeId;
-            const recipeName = button.dataset.recipeName;
-            const recipeCategory = button.dataset.recipeCategory;
-            const recipeSteps = button.dataset.recipeSteps;
+    function showModal() {
+        modal.classList.remove("hidden");
+        console.log("showModal function has been called");
+        console.log(`Form Action: ${form.action}`);
+    }
 
-            form.action = `/recipes/${recipeId}`;
+    function hideModal() {
+        modal.classList.add("hidden");
+        form.reset();
+    }
 
-            // Populate form fields
-            document.getElementById("name").value = recipeName;
-            document.getElementById("category").value = recipeCategory;
-            document.getElementById("steps").value = recipeSteps;
-
-            // Show modal
-            modal.classList.remove("hidden");
-        });
-    });
-
-    // Close modal
-    document
-        .querySelector(".closeModalButton")
-        .addEventListener("click", () => {
-            modal.classList.add("hidden");
-            form.reset();
-        });
-
-    // Handle delete button
-    document.querySelector(".delete-recipe").addEventListener("click", () => {
+    function handleDelete() {
         if (confirm("Are you sure you want to delete this recipe?")) {
-            const currentAction = form.action;
-            form.action = currentAction.replace("update", "delete");
             form._method.value = "DELETE";
             form.submit();
         }
+    }
+
+    function populateForm(data) {
+        console.log("populate form is called");
+        form.action = `/recipes/${data.recipeId}`;
+        formFields.forEach((field) => {
+            document.getElementById(field).value = data[`${field}`];
+        });
+        console.log("the form has been populated");
+        showModal();
+    }
+
+    if (modal.classList.contains("errors")) {
+        const editingId = modal.dataset.editingId;
+        console.log(editingId);
+        if (editingId) {
+            form.action = `/recipes/${editingId}`;
+            showModal();
+        }
+    }
+
+    document.querySelectorAll(".openModalButton").forEach((button) => {
+        button.addEventListener("click", () => {
+            const data = button.dataset;
+            populateForm(data);
+        });
     });
 
-    // Close modal when clicking outside
     modal.addEventListener("click", (e) => {
-        if (e.target === modal) {
-            modal.classList.add("hidden");
-            form.reset();
-        }
+        if (e.target === modal) hideModal();
     });
+
+    document
+        .querySelector(".closeModalButton")
+        .addEventListener("click", hideModal);
+    document
+        .querySelector(".delete-recipe")
+        .addEventListener("click", handleDelete);
 });

@@ -11,15 +11,16 @@
 
         <!-- Email Address -->
         <div>
-            <x-input-label for="email" :value="__('Email')" />
-            <x-text-input id="email" class="block mt-1 w-full" type="email" name="email" :value="old('email')" required autofocus />
-            <x-input-error :messages="$errors->get('email')" class="mt-2" />
+            <x-forms.input-label for="email" :value="__('Email')" />
+            <x-forms.text-input class="mt-1 block w-full" id="email" name="email" type="email" :value="old('email')"
+                                required autofocus />
+            <x-forms.input-error class="mt-2" :messages="$errors->get('email')" />
         </div>
 
-        <div class="flex items-center justify-end mt-4">
-            <x-primary-button>
+        <div class="mt-4 flex items-center justify-end">
+            <x-buttons.primary-button>
                 {{ __('Email Password Reset Link') }}
-            </x-primary-button>
+            </x-buttons.primary-button>
         </div>
     </form>
 </x-guest-layout>

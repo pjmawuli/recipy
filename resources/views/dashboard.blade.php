@@ -11,12 +11,12 @@
                 @csrf
                 <div class="flex gap-7">
                     <div class="mb-5">
-                        <x-input-label class="mb-5">Recipe Name</x-input-label>
-                        <x-text-input name='name' required />
+                        <x-forms.input-label class="mb-5">Recipe Name</x-forms.input-label>
+                        <x-forms.text-input name='name' required />
                     </div>
                     <div class="mb-5">
-                        <x-input-label class="mb-5">Category</x-input-label>
-                        <x-text-input name='category' required />
+                        <x-forms.input-label class="mb-5">Category</x-forms.input-label>
+                        <x-forms.text-input name='category' required />
                     </div>
                 </div>
                 <div class="mb-5">
@@ -24,11 +24,12 @@
                     <textarea class="w-full max-w-2xl" name="steps" rows=12 required placeholder="Steps..."></textarea>
                 </div>
                 <div class="mb-5">
-                    <x-input-label class="mb-5">Upload and Image of the meal you just described!</x-input-label>
+                    <x-forms.input-label class="mb-5">Upload and Image of the meal you just
+                        described!</x-forms.input-label>
                     <input name="image" type="file" />
                 </div>
-                <x-input-error :messages="$errors->get('message')" />
-                <x-primary-button>{{ __('Submit') }} </x-primary-button>
+                <x-forms.input-error :messages="$errors->get('message')" />
+                <x-buttons.primary-button>{{ __('Submit') }} </x-buttons.primary-button>
             </form>
         </div>
     </div>

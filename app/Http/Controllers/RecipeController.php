@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Validation\Rules\File;
+use Illuminate\Validation\ValidationException;
 
 class RecipeController extends Controller
 {
@@ -74,24 +75,42 @@ class RecipeController extends Controller
      */
     public function update(Request $request, Recipe $recipe)
     {
-        // Gate::authorize('update', $recipe);
+        Gate::authorize('update', $recipe);
+        try {
+            $validated = $request->validate([
+                'name' => ['required', 'min:5', 'string'],
+                'category' => ['required', 'min:5', 'string'],
+                'steps' => ['required', 'min:50', 'string'],
+                'image' => ['nullable', File::types(['jpg', 'jpeg', 'tif', 'png'])]
+            ]);
 
+            // Start with the validated data
+            $updated = [
+                'name' => $validated['name'],
+                'category' => $validated['category'],
+                'steps' => $validated['steps']
+            ];
 
-        // $updated = request()->validate([
-        //     'name' => ['required'],
-        //     'steps' => ['required', 'min:50'],
-        //     'category' => ['required'],
-        //     'image' => ['required', File::types(['jpg', 'jpeg', 'tif', 'png'])]
-        // ]);
+            // Handle image separately
+            if ($request->hasFile('image')) {
+                $imagePath = $request->file('image')->store('food_images');
+                $updated['image'] = $imagePath;
+            } else {
+                $updated['image'] = $recipe->image;
+            }
 
-        // $imagePath = $request->file('image')->store('food_images');
-        // $recipeAttr['image'] = $imagePath;
+            $recipe->update($updated);
 
-        // $recipe->update($updated);
+            return redirect('/');
 
-        // return redirect("/recipes/$recipe->id");
+        } catch (ValidationException $e) {
+            return redirect()
+                ->back()
+                ->withErrors($e->validator)
+                ->withInput()
+                ->with('editing_recipe_id', $recipe->id);
+        }
     }
-
     /**
      * Remove the specified resource from storage.
      */

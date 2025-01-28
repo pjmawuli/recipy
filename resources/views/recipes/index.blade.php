@@ -21,9 +21,8 @@
                             <x-recipe.recipe-card :recipe="$recipe" />
                         @endforeach
 
-                        {{-- The edit moda --}}
+                        {{-- The edit modal --}}
                         <x-edit-modal />
-
                         @vite('resources/js/modal-behaviour.js')
                     </div>
                 </div>
