@@ -84,14 +84,12 @@ class RecipeController extends Controller
                 'image' => ['nullable', File::types(['jpg', 'jpeg', 'tif', 'png'])]
             ]);
 
-            // Start with the validated data
             $updated = [
                 'name' => $validated['name'],
                 'category' => $validated['category'],
                 'steps' => $validated['steps']
             ];
 
-            // Handle image separately
             if ($request->hasFile('image')) {
                 $imagePath = $request->file('image')->store('food_images');
                 $updated['image'] = $imagePath;

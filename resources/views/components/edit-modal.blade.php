@@ -1,5 +1,5 @@
 <div class="{{ $errors->any() ? 'errors' : 'hidden ' }} fixed inset-0 z-50 flex items-center justify-center bg-gray-500 bg-opacity-50"
-     id="edit-modal" data-editing-id="{{ session('editing_recipe_id') }}">
+     id="edit-modal">
     <div class="w-full max-w-2xl rounded-lg bg-white p-8 shadow-lg">
         <div class="mb-4 flex items-center justify-between">
             <h2 class="text-xl font-semibold">Edit Recipe</h2>
