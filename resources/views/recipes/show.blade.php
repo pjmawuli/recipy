@@ -14,14 +14,6 @@
                 {{ $recipe['steps'] }}
             </div>
         </div>
-        @if ($recipe->user->is(Auth::user()))
-            <div>
-                <button class="rounded bg-blue-400 p-2">
-                    <a href="/recipes/{{ $recipe->id }}/edit"> Edit
-                    </a>
-                </button>
-            </div>
-        @endif
     </div>
 
     </div>

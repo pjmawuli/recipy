@@ -13,7 +13,7 @@ class RecipePolicy
      */
     public function viewAny(User $user): bool
     {
-        return false;
+        return $user->can('recipe.view');
     }
 
     /**
@@ -21,7 +21,7 @@ class RecipePolicy
      */
     public function view(User $user, Recipe $recipe): bool
     {
-        return false;
+        return $user->can('recipe.view');
     }
 
     /**
@@ -29,7 +29,7 @@ class RecipePolicy
      */
     public function create(User $user): bool
     {
-        return false;
+        return $user->can('recipe.create');
     }
 
     /**
@@ -37,7 +37,12 @@ class RecipePolicy
      */
     public function update(User $user, Recipe $recipe): bool
     {
-        return $recipe->user()->is($user);
+        // the Admin has full control
+        if ($user->hasRole('Admin')) {
+            return true;
+        }
+
+        return $user->can('recipe.update') && $recipe->user_id === $user->id;
     }
 
     /**
@@ -45,7 +50,10 @@ class RecipePolicy
      */
     public function delete(User $user, Recipe $recipe): bool
     {
-        return $this->update($user, $recipe);
+        if ($user->hasRole('Admin')) {
+            return true;
+        }
+        return $user->can('recipe.delete') && $recipe->user_id === $user->id;
     }
 
     /**
